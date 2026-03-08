@@ -152,36 +152,29 @@ const App: React.FC = () => {
       utterance.pitch = 1.0; 
       utterance.volume = 1.0; 
       
-      const setVoiceAndSpeak = () => {
-          let voices = window.speechSynthesis.getVoices();
-          if (voices.length > 0) {
-              // Priority 1: High-quality Thai female voices (Premwadee for Windows, Kanya for iOS, Google for Android/Chrome)
-              let voice = voices.find(v => v.lang.includes('th') && (v.name.includes('Premwadee') || v.name.includes('Kanya') || v.name.includes('Google')));
-              
-              // Priority 2: Any Thai voice that is not a generic desktop voice
-              if (!voice) {
-                  voice = voices.find(v => v.lang.includes('th') && !v.name.includes('Desktop') && (v.name.includes('Premium') || v.name.includes('Microsoft')));
-              }
-              
-              // Priority 3: Any Thai voice
-              if (!voice) {
-                  voice = voices.find(v => v.lang.includes('th'));
-              }
-
-              if (voice) {
-                  utterance.voice = voice;
-              }
+      const voices = window.speechSynthesis.getVoices();
+      
+      if (voices.length > 0) {
+          // Priority 1: High-quality Thai female voices (Premwadee for Windows, Kanya for iOS, Google for Android/Chrome)
+          let voice = voices.find(v => v.lang.includes('th') && (v.name.includes('Premwadee') || v.name.includes('Kanya') || v.name.includes('Google')));
+          
+          // Priority 2: Any Thai voice that is not a generic desktop voice
+          if (!voice) {
+              voice = voices.find(v => v.lang.includes('th') && !v.name.includes('Desktop') && (v.name.includes('Premium') || v.name.includes('Microsoft')));
           }
-          window.speechSynthesis.speak(utterance);
-      };
+          
+          // Priority 3: Any Thai voice
+          if (!voice) {
+              voice = voices.find(v => v.lang.includes('th'));
+          }
 
-      if (window.speechSynthesis.getVoices().length === 0) {
-          window.speechSynthesis.onvoiceschanged = setVoiceAndSpeak;
-          // Fallback in case onvoiceschanged doesn't fire
-          setTimeout(setVoiceAndSpeak, 500);
-      } else {
-          setVoiceAndSpeak();
+          if (voice) {
+              utterance.voice = voice;
+          }
       }
+
+      // Always call speak synchronously to ensure it works on iOS/Safari
+      window.speechSynthesis.speak(utterance);
     }
   };
 
