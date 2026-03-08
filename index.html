@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Craft - ฝึกเขียนโปรแกรมสำหรับเด็ก</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Sarabun, Fredoka, and Chakra Petch (Tech font) -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;800&family=Fredoka:wght@400;600&family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Blockly Core (Pinned Version) -->
+    <script src="https://unpkg.com/blockly@10.0.0/blockly.min.js" crossorigin="anonymous"></script>
+    <!-- Blockly JavaScript Generator (Pinned Version) -->
+    <script src="https://unpkg.com/blockly@10.0.0/javascript_compressed.js" crossorigin="anonymous"></script>
+    <style>
+      body {
+        font-family: 'Sarabun', sans-serif;
+        overflow: hidden; /* Prevent scrolling on the main body */
+      }
+      h1, h2, h3, .font-display {
+        font-family: 'Fredoka', 'Sarabun', sans-serif;
+      }
+      .font-tech {
+        font-family: 'Chakra Petch', sans-serif;
+      }
+      /* Custom Scrollbar for better accessibility */
+      ::-webkit-scrollbar {
+        width: 12px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 6px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+      .animate-wiggle {
+          animation: wiggle 2s linear infinite;
+      }
+      @keyframes wiggle {
+          0%, 7% { transform: rotateZ(0); }
+          15% { transform: rotateZ(-5deg); }
+          20% { transform: rotateZ(3deg); }
+          25% { transform: rotateZ(-5deg); }
+          30% { transform: rotateZ(2deg); }
+          35%, 100% { transform: rotateZ(0); }
+      }
+      
+      /* Coding Pattern Background */
+      .bg-code-pattern {
+        background-color: #0f172a; /* Slate 900 */
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23334155' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      }
+      .bg-code-overlay {
+        background: radial-gradient(circle at center, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 1) 100%);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-slate-50">
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
