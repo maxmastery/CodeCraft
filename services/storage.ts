@@ -20,7 +20,7 @@ export const FALLBACK_ADMIN: AdminUser = {
 
 // Default configuration (Updated with hardcoded URL)
 const DEFAULT_CONFIG: SystemConfig = {
-  scriptUrl: 'https://script.google.com/macros/s/AKfycbwdtwanjwdLiaotdFdZnWdoZCH4K-jZykI5jbpWLC6rSIgGgXn2ovDoJEuF_5dyoMEe/exec',
+  scriptUrl: 'https://script.google.com/macros/s/AKfycbzKZXE0AiX7mSf-7v9q2WZzPgEu6rpMt_TEKrQ8i3QFvPNED40vLs-6MDMm18mt84LG/exec',
   sheetId: '',
   driveId: ''
 };
