@@ -3,74 +3,206 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Code Craft - ฝึกเขียนโปรแกรมสำหรับเด็ก</title>
-    <!-- Tailwind CSS -->
+    <title>ระบบคัดเลือกนักเรียน</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Sarabun, Fredoka, and Chakra Petch (Tech font) -->
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;800&family=Fredoka:wght@400;600&family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Blockly Core (Pinned Version) -->
-    <script src="https://unpkg.com/blockly@10.0.0/blockly.min.js" crossorigin="anonymous"></script>
-    <!-- Blockly JavaScript Generator (Pinned Version) -->
-    <script src="https://unpkg.com/blockly@10.0.0/javascript_compressed.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
       body {
         font-family: 'Sarabun', sans-serif;
-        overflow: hidden; /* Prevent scrolling on the main body */
-      }
-      h1, h2, h3, .font-display {
-        font-family: 'Fredoka', 'Sarabun', sans-serif;
-      }
-      .font-tech {
-        font-family: 'Chakra Petch', sans-serif;
-      }
-      /* Custom Scrollbar for better accessibility */
-      ::-webkit-scrollbar {
-        width: 12px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 6px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #555;
-      }
-      .animate-wiggle {
-          animation: wiggle 2s linear infinite;
-      }
-      @keyframes wiggle {
-          0%, 7% { transform: rotateZ(0); }
-          15% { transform: rotateZ(-5deg); }
-          20% { transform: rotateZ(3deg); }
-          25% { transform: rotateZ(-5deg); }
-          30% { transform: rotateZ(2deg); }
-          35%, 100% { transform: rotateZ(0); }
+        background-color: #F5F5F7; /* Apple background gray */
+        color: #1D1D1F; /* Apple text color */
+        -webkit-font-smoothing: antialiased;
       }
       
-      /* Coding Pattern Background */
-      .bg-code-pattern {
-        background-color: #0f172a; /* Slate 900 */
-        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23334155' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      /* Animation: Fade In Up */
+      .fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
       }
-      .bg-code-overlay {
-        background: radial-gradient(circle at center, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 1) 100%);
+      .animate-fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+      }
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Animation: Fade In (Simple) */
+      .animate-fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      /* Custom grid for landing background */
+      .grid-bg {
+        background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+
+      /* Custom Scrollbar */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+
+      /* Glow effect for locked rows */
+      .locked-row-glow {
+        background-color: rgba(255, 215, 0, 0.08) !important;
+        animation: goldGlow 2.5s ease-in-out infinite alternate;
+        position: relative;
+        z-index: 10;
+      }
+
+      @keyframes goldGlow {
+        0% {
+          box-shadow: inset 0 0 5px 1px rgba(218, 165, 32, 0.1), 0 0 5px 1px rgba(218, 165, 32, 0.2);
+          outline: 1px solid rgba(218, 165, 32, 0.3);
+          outline-offset: -1px;
+        }
+        100% {
+          box-shadow: inset 0 0 15px 2px rgba(255, 215, 0, 0.4), 0 0 10px 2px rgba(255, 215, 0, 0.5);
+          outline: 2px solid rgba(255, 215, 0, 0.9);
+          outline-offset: -2px;
+        }
+      }
+
+      /* iOS-style toggle switch for lock */
+      .lock-toggle {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        width: 44px;
+        height: 24px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      
+      .lock-toggle-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+      }
+      
+      .lock-toggle-knob {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border-radius: 50%;
+        transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      }
+      
+      .lock-toggle.locked .lock-toggle-bg {
+        background: linear-gradient(135deg, #FFD700, #DAA520);
+        box-shadow: 0 0 8px rgba(218, 165, 32, 0.6);
+      }
+      
+      .lock-toggle.locked .lock-toggle-knob {
+        transform: translateX(20px);
+      }
+      
+      .lock-toggle:not(.locked) .lock-toggle-bg {
+        background-color: #E5E7EB;
+      }
+
+      /* --- Print Styles --- */
+      @media print {
+        @page {
+          size: A4;
+          margin: 10mm;
+        }
+        body, #root {
+          background-color: white !important;
+          color: black !important;
+          height: auto !important;
+          overflow: visible !important;
+        }
+        
+        /* Hide non-printable elements */
+        .no-print, nav, aside, footer, .fixed {
+          display: none !important;
+        }
+        
+        /* Ensure content takes full width and height */
+        main, .print-container {
+          margin: 0 !important;
+          padding: 0 !important;
+          width: 100% !important;
+          height: auto !important;
+          overflow: visible !important;
+          display: block !important;
+        }
+
+        /* Table Specifics */
+        table {
+          width: 100% !important;
+          border-collapse: collapse !important;
+          table-layout: fixed !important; /* Force fit */
+        }
+        
+        th, td {
+          border: 1px solid #ccc !important;
+          padding: 4px 8px !important;
+          font-size: 10pt !important; /* Smaller font for print */
+          color: black !important;
+          white-space: normal !important; /* Allow wrapping */
+        }
+        
+        thead {
+            display: table-header-group;
+        }
+        
+        tr {
+            break-inside: avoid;
+        }
+
+        th {
+          background-color: #f3f4f6 !important; 
+          -webkit-print-color-adjust: exact;
+          color: black !important;
+        }
+
+        /* Hide scrollbars during print */
+        ::-webkit-scrollbar {
+          display: none;
+        }
       }
     </style>
   <script type="importmap">
 {
   "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
+    "recharts": "https://esm.sh/recharts@^3.6.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react-dom": "https://esm.sh/react-dom@^19.2.3",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "exceljs": "https://esm.sh/exceljs@4.4.0"
   }
 }
 </script>
 <link rel="stylesheet" href="/index.css">
 </head>
-  <body class="bg-slate-50">
+  <body>
     <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
