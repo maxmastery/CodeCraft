@@ -77,7 +77,7 @@ export const rankStudents = (
   // Function to try assigning a student to their preferred choices
   const tryAssignSeat = (student: typeof allStudents[0]) => {
       let assigned = null;
-      if (student.preferredStreams) {
+      if (student.preferredStreams && student.preferredStreams.length > 0) {
           for (const planName of student.preferredStreams) {
               let matchedPlanName = planName;
               
@@ -106,6 +106,18 @@ export const rankStudents = (
               }
           }
       }
+      
+      // Fallback: If not assigned to any preferred stream (or no preferences), assign to the first available stream
+      if (!assigned) {
+          for (const planName of Object.keys(planQuotas)) {
+              if (currentUsage[planName] < planQuotas[planName]) {
+                  assigned = planName;
+                  currentUsage[planName]++;
+                  break;
+              }
+          }
+      }
+      
       assignmentMap.set(student.id, assigned);
   };
 

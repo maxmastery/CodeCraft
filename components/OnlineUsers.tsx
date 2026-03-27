@@ -35,6 +35,14 @@ const OnlineUsers: React.FC<OnlineUsersProps> = ({ currentUser }) => {
     }
   };
 
+  const sendHeartbeat = async () => {
+    try {
+      await api.heartbeat(currentUser.id);
+    } catch (error) {
+      // Ignore
+    }
+  };
+
   const fetchEmojis = async () => {
     try {
       const newEmojis = await api.getEmojis(currentUser.id);
@@ -53,11 +61,15 @@ const OnlineUsers: React.FC<OnlineUsersProps> = ({ currentUser }) => {
 
   useEffect(() => {
     // Initial fetch
+    sendHeartbeat();
     fetchOnlineUsers();
     fetchEmojis();
 
     // Poll online users every 30 seconds
-    intervalRef.current = window.setInterval(fetchOnlineUsers, 30000);
+    intervalRef.current = window.setInterval(() => {
+        sendHeartbeat();
+        fetchOnlineUsers();
+    }, 30000);
     
     // Poll emojis every 5 seconds
     emojiIntervalRef.current = window.setInterval(fetchEmojis, 5000);

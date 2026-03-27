@@ -5,6 +5,7 @@ import { rankStudents } from '../services/rankingService';
 import StudentList from './StudentList';
 import Analysis from './Analysis';
 import SettingsPage from './SettingsPage';
+import OnlineUsers from './OnlineUsers';
 import { LayoutDashboard, LogOut, Menu, X, User, Settings, ArrowLeft, Shield, Loader2, Lock, Eye, CheckCircle, BarChart3, Database, AlertTriangle, RefreshCw, XCircle } from 'lucide-react';
 import api from '../services/api';
 import { storage } from '../services/storage';
@@ -558,6 +559,8 @@ const Dashboard: React.FC<DashboardProps> = ({ classroom, onBack, onLogout, curr
             onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
+      
+      {currentUser && <OnlineUsers currentUser={currentUser} />}
     </div>
   );
 };

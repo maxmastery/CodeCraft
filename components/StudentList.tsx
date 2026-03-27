@@ -488,7 +488,7 @@ const StudentList: React.FC<StudentListProps> = ({
                                 onClick={handleBulkDeleteClick}
                                 className="h-[60px] bg-red-600 hover:bg-red-700 shadow-lg shadow-red-200 text-white rounded-2xl px-6 flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 text-base font-bold mt-2"
                             >
-                                <Trash2 className="h-5 w-5" /> ลบ {selectedIds.size} รายการ
+                                <Trash2 className="h-5 w-5" /> ลบ {filteredStudents.filter(s => selectedIds.has(s.id)).length} รายการ
                             </Button>
                         )}
                     </div>
@@ -892,7 +892,7 @@ const StudentList: React.FC<StudentListProps> = ({
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">ยืนยันการลบหมู่?</h3>
                 <p className="text-gray-500 mb-6 text-sm">
-                    คุณต้องการลบข้อมูลนักเรียนจำนวน <span className="font-bold text-gray-900">{selectedIds.size}</span> รายการ ใช่หรือไม่?
+                    คุณต้องการลบข้อมูลนักเรียนจำนวน <span className="font-bold text-gray-900">{filteredStudents.filter(s => selectedIds.has(s.id)).length}</span> รายการ ใช่หรือไม่?
                 </p>
                 
                 <div className="mb-6">
